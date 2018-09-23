@@ -23,6 +23,14 @@ const Mat Face::whitePiece (pieceColorSize, pieceColorSize, CV_8UC3, Scalar(255,
 const Mat Face::orangePiece(pieceColorSize, pieceColorSize, CV_8UC3, Scalar(0, 120, 255));
 
 
+//construct function, initialize `data`
+Face::Face(COLOR *beginColorPt, char *beginOrientPt):
+    colorData(beginColorPt),
+    centerColor(beginColorPt+4),
+    data(beginOrientPt)
+{}
+
+
 //  Display the color of each piece of the face with its 
 //first left-top point at (x,y) on img
 void Face::display(cv::Mat& img, int x, int y)const
@@ -37,7 +45,7 @@ void Face::display(cv::Mat& img, int x, int y)const
                   (i + 1)*pieceGapSize + i*pieceColorSize,
                   pieceColorSize, pieceColorSize);
         
-        switch (data[i * 3 + j])
+        switch (colorData[i * 3 + j])
         {
         case RED:
             redPiece.copyTo(backgrand(area));
@@ -66,24 +74,11 @@ void Face::display(cv::Mat& img, int x, int y)const
 }
 
 
-//  This function set colors for the face. The color listed
-//in color[] is from left to right, up to down.
-//NOTE:color[] must have 9 elements!
-void Face::setColor(const Face::COLOR color[])
-{
-    for (int i = 0; i < 9; i++)
-    {
-        data[i] = color[i];
-    }
-    centerColor = data[4];
-}
-
-
 //turn the face clockwise 90 degrees (-90 degrees)
 void Face::turn_90()
 {
     //transform of the corners
-    COLOR temp = data[0];
+    char temp = data[0];
     data[0] = data[6];
     data[6] = data[8];
     data[8] = data[2];
@@ -101,7 +96,7 @@ void Face::turn_90()
 void Face::turn90()
 {
     //transform of the corners
-    COLOR temp = data[0];
+    char temp = data[0];
     data[0] = data[2];
     data[2] = data[8];
     data[8] = data[6];
@@ -119,7 +114,7 @@ void Face::turn90()
 void Face::turn180()
 {
     //transform of the corners
-    COLOR temp = data[0];
+    char temp = data[0];
     data[0] = data[8];
     data[8] = temp;
     temp = data[2];
@@ -149,47 +144,53 @@ void Face::turn180()
 //front face, its adjancent face will be rank clockwisely  or conterclockwisely
 //with 12 o'clock as its first face, which is the up face in this instance.
 //--clockwisely
-const int RubikCube::frontIndex_90[]{6,7,8,0,3,6,2,1,0,8,5,2};
-const int RubikCube::backIndex_90[] {2,1,0,0,3,6,6,7,8,8,5,2};
-const int RubikCube::leftIndex_90[] {0,3,6,0,3,6,0,3,6,8,5,2};
-const int RubikCube::rightIndex_90[]{8,5,2,0,3,6,8,5,2,8,5,2};
 const int RubikCube::upIndex_90[]   {2,1,0,2,1,0,2,1,0,2,1,0};
+const int RubikCube::leftIndex_90[] {0,3,6,0,3,6,0,3,6,8,5,2};
+const int RubikCube::frontIndex_90[]{6,7,8,0,3,6,2,1,0,8,5,2};
+const int RubikCube::rightIndex_90[]{8,5,2,0,3,6,8,5,2,8,5,2};
+const int RubikCube::backIndex_90[] {2,1,0,0,3,6,6,7,8,8,5,2};
 const int RubikCube::downIndex_90[] {6,7,8,6,7,8,6,7,8,6,7,8};
 //--conterclockwisely
-const int RubikCube::frontIndex90[]{8,7,6,2,5,8,0,1,2,6,3,0};
-const int RubikCube::backIndex90[] {0,1,2,2,5,8,8,7,6,6,3,0};
-const int RubikCube::leftIndex90[] {6,3,0,2,5,8,6,3,0,6,3,0};
-const int RubikCube::rightIndex90[]{2,5,8,2,5,8,2,5,8,6,3,0};
 const int RubikCube::upIndex90[]   {0,1,2,0,1,2,0,1,2,0,1,2};
+const int RubikCube::leftIndex90[] {6,3,0,2,5,8,6,3,0,6,3,0};
+const int RubikCube::frontIndex90[]{8,7,6,2,5,8,0,1,2,6,3,0};
+const int RubikCube::rightIndex90[]{2,5,8,2,5,8,2,5,8,6,3,0};
+const int RubikCube::backIndex90[] {0,1,2,2,5,8,8,7,6,6,3,0};
 const int RubikCube::downIndex90[] {8,7,6,8,7,6,8,7,6,8,7,6};
 //--180 degrees
 //first 6 index belong to fa, and the last 6 belong to fb
 //!fa1,fb1,fa2,fb2 are ranked conterclockwisely
-const int RubikCube::frontIndex180[]{8,7,6,0,1,2,2,5,8,6,3,0};
-const int RubikCube::backIndex180[] {0,1,2,8,7,6,2,5,8,6,3,0};
-const int RubikCube::leftIndex180[] {6,3,0,6,3,0,2,5,8,6,3,0};
-const int RubikCube::rightIndex180[]{2,5,8,2,5,8,2,5,8,6,3,0};
 const int RubikCube::upIndex180[]   {0,1,2,0,1,2,0,1,2,0,1,2};
+const int RubikCube::leftIndex180[] {6,3,0,6,3,0,2,5,8,6,3,0};
+const int RubikCube::frontIndex180[]{8,7,6,0,1,2,2,5,8,6,3,0};
+const int RubikCube::rightIndex180[]{2,5,8,2,5,8,2,5,8,6,3,0};
+const int RubikCube::backIndex180[] {0,1,2,8,7,6,2,5,8,6,3,0};
 const int RubikCube::downIndex180[] {8,7,6,8,7,6,8,7,6,8,7,6};
 
 
-RubikCube::RubikCube()
+RubikCube::RubikCube():
+    upFace   (colorData,orientData),
+    leftFace (colorData+9,orientData+9),
+    frontFace(colorData+18,orientData+18),
+    rightFace(colorData+27,orientData+27),
+    backFace (colorData+36,orientData+36),
+    downFace (colorData+45,orientData+45)
 {
-    turnMethod[0]  = &RubikCube::turnF_90;
-    turnMethod[1] = &RubikCube::turnF90;
-    turnMethod[2] = &RubikCube::turnF180;
-    turnMethod[3] = &RubikCube::turnB_90;
-    turnMethod[4] = &RubikCube::turnB90;
-    turnMethod[5] = &RubikCube::turnB180;
-    turnMethod[6] = &RubikCube::turnL_90;
-    turnMethod[7] = &RubikCube::turnL90;
-    turnMethod[8] = &RubikCube::turnL180;
-    turnMethod[9] = &RubikCube::turnR_90;
+    turnMethod[0]  = &RubikCube::turnU_90;
+    turnMethod[1]  = &RubikCube::turnU90;
+    turnMethod[2]  = &RubikCube::turnU180;
+    turnMethod[3]  = &RubikCube::turnL_90;
+    turnMethod[4]  = &RubikCube::turnL90;
+    turnMethod[5]  = &RubikCube::turnL180;
+    turnMethod[6]  = &RubikCube::turnF_90;
+    turnMethod[7]  = &RubikCube::turnF90;
+    turnMethod[8]  = &RubikCube::turnF180;
+    turnMethod[9]  = &RubikCube::turnR_90;
     turnMethod[10] = &RubikCube::turnR90;
     turnMethod[11] = &RubikCube::turnR180;
-    turnMethod[12] = &RubikCube::turnU_90;
-    turnMethod[13] = &RubikCube::turnU90;
-    turnMethod[14] = &RubikCube::turnU180;
+    turnMethod[12] = &RubikCube::turnB_90;
+    turnMethod[13] = &RubikCube::turnB90;
+    turnMethod[14] = &RubikCube::turnB180;
     turnMethod[15] = &RubikCube::turnD_90;
     turnMethod[16] = &RubikCube::turnD90;
     turnMethod[17] = &RubikCube::turnD180;
@@ -203,10 +204,13 @@ RubikCube::RubikCube()
 //  v    |L  F  R  B|
 //  y    |   D      |
 //       ------------
-void RubikCube::display(cv::Mat& img, int x, int y)const
+void RubikCube::display(cv::Mat& img, int x, int y)
 {
     const int faceSz = Face::pieceColorSize * 3 + Face::pieceGapSize * 4;
     const int divideSz = 2;
+
+    //update colorData[] from orientData[]
+    orient2COLOR();
 
     //draw each face
     upFace.display(img, x + faceSz + divideSz, y);
@@ -235,15 +239,19 @@ void RubikCube::display(cv::Mat& img, int x, int y)const
 //                    L   F   R   B
 //                        D
 //NOTE:color[] must have 54 elements!
-void RubikCube::setAllFaceColor(Face::COLOR color[])
+void RubikCube::initCubeState(const char inputColorLetter[])
 {
-    Face::COLOR* p = color;
-    upFace.setColor   (p);
-    leftFace.setColor (p += 9);
-    frontFace.setColor(p += 9);
-    rightFace.setColor(p += 9);
-    backFace.setColor (p += 9);
-    downFace.setColor (p += 9);
+    colorLetter2COLOR(inputColorLetter);
+    COLOR2orient();
+}
+
+// This function set the relative orient data of the cube(orientData[]).
+//It will change the cube into a new state determined by the input.
+//The face rank is ULFRBD, each face follows the order defined in class `Face`
+void RubikCube::setOrientData(const char inputOrientData[])
+{
+    for (int i = 0; i < 54;i++)
+        orientData[i] = inputOrientData[i];
 }
 
 
@@ -364,6 +372,89 @@ void RubikCube::turnD180()
 
 //private:
 
+//transform color letter to COLOR type.
+//e.g. "ybrgow" -> "YELLOW BLUE RED GREEN ORANGE WHITW"
+void RubikCube::colorLetter2COLOR(const char colorLetter[])
+{
+    for (int i = 0; i < 54;i++)
+    {
+        switch(colorLetter[i])
+        {
+            case 'r':
+                colorData[i] = RED;
+                break;
+            case 'g':
+                colorData[i] = GREEN;
+                break;
+            case 'b':
+                colorData[i] = BLUE;
+                break;
+            case 'w':
+                colorData[i] = WHITE;
+                break;
+            case 'y':
+                colorData[i] = YELLOW;
+                break;
+            case 'o':
+                colorData[i] = ORANGE;
+                break;
+        }
+    }
+}
+
+//transform COLOR type to relative orient.
+//e.g. "YELLOW BLUE RED GREEN ORANGE WHITW" -> "ULFRBD"
+void RubikCube::COLOR2orient()
+{
+    for (int i = 0; i < 54;i++)
+    {
+        if(colorData[i]      == *(frontFace.centerColor))
+            orientData[i] = 'F';
+        else if(colorData[i] == *(backFace.centerColor))
+            orientData[i] = 'B';
+        else if(colorData[i] == *(leftFace.centerColor))
+            orientData[i] = 'L';
+        else if(colorData[i] == *(rightFace.centerColor))
+            orientData[i] = 'R';
+        else if(colorData[i] == *(upFace.centerColor))
+            orientData[i] = 'U';
+        else if(colorData[i] == *(downFace.centerColor))
+            orientData[i] = 'D';
+    }
+}
+
+
+//transform relative orient to COLOR type.
+//e.g. "ULFRBD" -> "YELLOW BLUE RED GREEN ORANGE WHITW"
+void RubikCube::orient2COLOR()
+{
+    for (int i = 0; i < 54;i++)
+    {
+        switch(orientData[i])
+        {
+            case 'U':
+                colorData[i] = *(upFace.centerColor);
+                break;
+            case 'L':
+                colorData[i] = *(leftFace.centerColor);
+                break;
+            case 'F':
+                colorData[i] = *(frontFace.centerColor);
+                break;
+            case 'R':
+                colorData[i] = *(rightFace.centerColor);
+                break;
+            case 'B':
+                colorData[i] = *(backFace.centerColor);
+                break;
+            case 'D':
+                colorData[i] = *(downFace.centerColor);
+                break;
+        }
+    }
+}
+
+
 //  turn the adjacent four faces of the main face(the face you
 //are manipulating). It move index[0,1,2] of f1 to index[3,4,5] of f2,
 //and index[3,4,5] of f2 to index[6,7,8] to f3....and etc.
@@ -371,7 +462,7 @@ void RubikCube::turnD180()
 //Note: std::vector<int>& index must have 12 elements.
 void RubikCube::turnAdj4faces(Face& f1, Face& f2, Face& f3, Face& f4, const int* index)
 {
-    Face::COLOR temp[3];
+    char temp[3];
     //f4 -> f1
     for (int i = 0; i < 3; i++)
     {
@@ -400,7 +491,7 @@ void RubikCube::turnAdj4faces(Face& f1, Face& f2, Face& f3, Face& f4, const int*
 //Note: index[] must have 12 elements.
 void RubikCube::turnOpp4faces(Face &fa1, Face &fa2, Face &fb1, Face &fb2, const int *index)
 {
-    Face::COLOR temp;
+    char temp;
     //fa1 <-> fa2
     for (int i = 0; i < 3; i++)
     {

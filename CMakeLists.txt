@@ -23,6 +23,7 @@ include_directories(
 # ${PYTHON_INCLUDE_PATH}
 )
 
+link_directories(data)
 
 #all source put here
 set(stimulateSrcList 
@@ -33,6 +34,6 @@ set(stimulateSrcList
 
 add_executable(stimulate ${stimulateSrcList})
 
-target_link_libraries(stimulate ${OpenCV_LIBS} pthread)
+target_link_libraries(stimulate ${OpenCV_LIBS} pthread kociemba)
 #target_link_libraries(startIt pthread usbcan)
 
