@@ -10,6 +10,9 @@ using namespace cv;
 //display the results
 static void *display_thread(void *data);
 
+//convert "U L' F2 ..." to 048....
+static void sol2turnMethodNum(const char *sol, vector<int> &turnMethodNum);
+
 //find solution by lib kociemba
 //U R F D L B order in facelets
 extern "C"{
@@ -18,15 +21,13 @@ char* solution(char* facelets, int maxDepth,
                const char* cache_dir);
 }
 
-//convert "U L' F2 ..." to 048....
-void sol2turnMethodNum(const char *sol, vector<int> &turnMethodNum);
-
 int main(int argc, char **argv)
 {
     if(argc != 2)
     {
         cout << "you must tell me the colors!" << endl;
         cout << "Input should be like this: yyybrgowwb..\n";
+        cout << "The rank of faces are ULFRBD";
         return -1;
     }
 
@@ -40,7 +41,7 @@ int main(int argc, char **argv)
     //find cube solution
     //NOTE: The face order is different, you need to convert first.
     char facelets[55];
-    int offset[6]{0, 18, 0, 18, -27, -9};
+    int const offset[6]{0, 18, 0, 18, -27, -9};
     for (int i = 0; i < 54;i++)
     {
         facelets[i] = cube.orientData[i + offset[i / 9]];
@@ -69,7 +70,7 @@ int main(int argc, char **argv)
 }
 
 //convert "U L' F2 ..." to 048....
-void sol2turnMethodNum(const char* const sol, vector<int> &turnMethodNum)
+static void sol2turnMethodNum(const char* const sol, vector<int> &turnMethodNum)
 {
     int num;
     for (const char* p = sol; *p != '\0';p++)

@@ -30,10 +30,10 @@ add_subdirectory(kociemba_genLib)
 
 # all source put here
 set(stimulateSrcList 
-    exec/stimulate.cpp
+    exec/simulate.cpp
     src/RubikCube.cpp)
 
-add_executable(stimulate ${stimulateSrcList})
+add_executable(simulate ${stimulateSrcList})
 
-target_link_libraries(stimulate ${OpenCV_LIBS} pthread kociemba)
+target_link_libraries(simulate ${OpenCV_LIBS} pthread kociemba)
 
