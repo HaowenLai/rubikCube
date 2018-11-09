@@ -49,6 +49,13 @@ int main(int argc, char **argv)
     facelets[54] = '\0';
     char *sol = solution(facelets, 24, 1000, 0, "cache");
     
+    //deal with unsolvable situation
+    if(NULL == sol)
+    {
+        printf("Errors occur! Unsolvable cube! Please check you input.\n");
+        return -1;
+    }
+
     //convert sol to turnMethod number
     //i.e. "U L' F2 ..." to 048....
     vector<int> turnMethodNum;
