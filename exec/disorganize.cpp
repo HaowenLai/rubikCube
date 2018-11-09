@@ -1,6 +1,6 @@
-// #include <unistd.h>
 #include <vector>
 #include <iostream>
+#include "RubikCube.h"
 #include "control.h"
 
 using namespace std;

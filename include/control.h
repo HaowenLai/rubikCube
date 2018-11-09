@@ -12,13 +12,6 @@
 
 #include <vector>
 
-// This function generates a vector of steps to a random state
-//of the rubik's cube.
-// You can specify the number of steps. If not, this function
-//randomly assigns stepNum to 18~22.
-void genRandomState(std::vector<int> &steps, int stepNum = 0);
-
-
 class Motor
 {
  public:

@@ -5,9 +5,6 @@
 
 using namespace std;
 
-//convert "U L' F2 ..." to 048....
-static void sol2turnMethodNum(const char *sol, vector<int> &turnMethodNum);
-
 //find solution by lib kociemba
 //U R F D L B order in facelets
 extern "C"
@@ -63,47 +60,3 @@ int main(int argc, char **argv)
     return 0;
 }
 
-//convert "U L' F2 ..." to 048....
-static void sol2turnMethodNum(const char *const sol, vector<int> &turnMethodNum)
-{
-    int num;
-    for (const char *p = sol; *p != '\0'; p++)
-    {
-        switch (*p)
-        {
-        case 'U':
-            num = 0;
-            break;
-        case 'L':
-            num = 3;
-            break;
-        case 'F':
-            num = 6;
-            break;
-        case 'R':
-            num = 9;
-            break;
-        case 'B':
-            num = 12;
-            break;
-        case 'D':
-            num = 15;
-            break;
-        }
-
-        //judge the character following the face note
-        p++;
-        if (*p == '\'')
-        {
-            num += 1;
-            p++;
-        }
-        else if (*p == '2')
-        {
-            num += 2;
-            p++;
-        }
-
-        turnMethodNum.push_back(num);
-    }
-}

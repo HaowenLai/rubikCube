@@ -511,3 +511,92 @@ void RubikCube::turnOpp4faces(Face &fa1, Face &fa2, Face &fb1, Face &fb2, const 
 
 //----------------------------- class `RubikCube` ends --------------------------------
 
+//------------------------------
+//self define function
+//------------------------------
+void genRandomState(std::vector<int> &steps, int stepNum)
+{
+    static unsigned int seed = 0;
+
+    //init srand
+    if (seed == 0)
+    {
+        FILE *fs_p = NULL;
+        fs_p = fopen("/dev/urandom", "r");
+
+        // get seed from /dev/urandom
+        if (NULL == fs_p)
+        {
+            printf("Can not open /dev/urandom to get random seed\n");
+            printf("use default seed 12345678\n");
+            seed = 12345678;
+        }
+        else
+        {
+            fread(&seed, sizeof(int), 1, fs_p); //obtain one unsigned int data
+            fclose(fs_p);
+        }
+        srand(seed);
+    }
+
+    stepNum = ((unsigned int)rand()) % 5 + 18;
+    steps.clear();
+
+    int prev = 18, current = 0;
+    for (int i = 0; i < stepNum; i++)
+    {
+        //eliminate same face of two steps that are next to each other
+        do
+        {
+            current = ((unsigned int)rand()) % 18;
+        } while (current >= prev / 3 * 3 && current <= prev / 3 * 3 + 2);
+
+        steps.push_back(current);
+        prev = current;
+    }
+}
+
+//convert "U L' F2 ..." to 048....
+void sol2turnMethodNum(const char *const sol, vector<int> &turnMethodNum)
+{
+    int num;
+    for (const char *p = sol; *p != '\0'; p++)
+    {
+        switch (*p)
+        {
+        case 'U':
+            num = 0;
+            break;
+        case 'L':
+            num = 3;
+            break;
+        case 'F':
+            num = 6;
+            break;
+        case 'R':
+            num = 9;
+            break;
+        case 'B':
+            num = 12;
+            break;
+        case 'D':
+            num = 15;
+            break;
+        }
+
+        //judge the character following the face note
+        p++;
+        if (*p == '\'')
+        {
+            num += 1;
+            p++;
+        }
+        else if (*p == '2')
+        {
+            num += 2;
+            p++;
+        }
+
+        turnMethodNum.push_back(num);
+    }
+}

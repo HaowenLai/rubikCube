@@ -11,49 +11,6 @@
 
 using namespace std;
 
-void genRandomState(std::vector<int> &steps, int stepNum)
-{
-    static unsigned int seed = 0;
-    
-    //init srand
-    if(seed == 0)
-    {
-        FILE *fs_p = NULL;
-        fs_p = fopen ("/dev/urandom", "r"); 
-
-        // get seed from /dev/urandom
-        if (NULL == fs_p)
-        {
-            printf("Can not open /dev/urandom to get random seed\n");
-            printf("use default seed 12345678\n");
-            seed = 12345678;
-        }
-        else
-        {
-            fread(&seed, sizeof(int), 1, fs_p); //obtain one unsigned int data
-            fclose(fs_p); 
-        }
-        srand(seed);
-    }
-
-    stepNum = ((unsigned int)rand()) % 5 + 18;
-    steps.clear();
-
-    int prev = 18, current = 0;
-    for (int i = 0; i < stepNum; i++)
-    {
-        //eliminate same face of two steps that are next to each other
-        do{
-            current = ((unsigned int)rand()) % 18;
-        } while (current >= prev / 3 * 3 && current <= prev / 3 * 3 + 2);
-
-        steps.push_back(current);
-        prev = current;
-    }
-}
-
-
-
 //---------------------begin class `Motor` ---------------------------------
 //public:
 const int Motor::MOTOR_PINS[]{1, 3, 5, 7, 22, 24};
@@ -211,6 +168,7 @@ void Motor::drive6motor(const std::vector<int> &steps) const
 void Motor::changeDirection(int dirPin, int direction)const
 {
     digitalWrite(dirPin, direction);
+    delayMicroseconds(30);
 }
 
 //drive two opposite motors. For optimization usage.
