@@ -72,3 +72,19 @@ int main(int argc, char **argv)
     pthread_join(displayThread, NULL);
     return 0;
 }
+
+//display thread
+static void *display_thread(void *data)
+{
+    auto &cube = *(RubikCube *)data;
+    Mat img(480, 640, CV_8UC3, Scalar(255, 255, 255));
+    namedWindow("show", WINDOW_AUTOSIZE);
+
+    while ((char)waitKey(100) != 'q')
+    {
+        cube.display(img, 100, 200);
+        imshow("show", img);
+    }
+
+    pthread_exit(0);
+}

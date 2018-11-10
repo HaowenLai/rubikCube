@@ -36,19 +36,18 @@ set(simulateSrcList
 set(solveCubeManuallySrcList 
     exec/solveCubeManually.cpp
     src/RubikCube.cpp
-    src/control.cpp)
+    src/Motor.cpp)
 
 set(disorganizeSrcList
     exec/disorganize.cpp
-    src/control.cpp)
+    src/RubikCube.cpp
+    src/Motor.cpp)
 
 add_executable(simulate ${simulateSrcList})
 add_executable(solveCubeManually ${solveCubeManuallySrcList})
-add_executable(enableAndDisable exec/enableAndDisable.cpp)
 add_executable(disorganize ${disorganizeSrcList})
 
 
 target_link_libraries(simulate ${OpenCV_LIBS} pthread kociemba)
-target_link_libraries(solveCubeManually ${OpenCV_LIBS} wiringPi pthread kociemba)
-target_link_libraries(enableAndDisable wiringPi)
-target_link_libraries(disorganize wiringPi)
+target_link_libraries(solveCubeManually ${OpenCV_LIBS} wiringPi kociemba)
+target_link_libraries(disorganize ${OpenCV_LIBS} wiringPi)

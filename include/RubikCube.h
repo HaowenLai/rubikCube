@@ -228,7 +228,7 @@ class RubikCube
 void genRandomState(std::vector<int> &steps, int stepNum = 0);
 
 //convert "U L' F2 ..." to 048....
-void sol2turnMethodNum(const char *sol, vector<int> &turnMethodNum);
+void sol2turnMethodNum(const char *sol, std::vector<int> &turnMethodNum);
 
 #endif
 

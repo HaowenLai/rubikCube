@@ -6,7 +6,7 @@
 * *******************************************************/
 #include <stdio.h>
 #include <stdlib.h>
-#include "control.h"
+#include "Motor.h"
 #include "wiringPi.h"
 
 using namespace std;
@@ -74,7 +74,7 @@ void Motor::drive6motor(const std::vector<int> &steps) const
                 degree2.push_back(90);
                 direction2.push_back(MT_CW);
             }
-            else if (steps[i] % 3 == 1)
+            else if (steps[i + 1] % 3 == 1)
             {
                 degree2.push_back(90);
                 direction2.push_back(MT_CCW);
@@ -168,7 +168,7 @@ void Motor::drive6motor(const std::vector<int> &steps) const
 void Motor::changeDirection(int dirPin, int direction)const
 {
     digitalWrite(dirPin, direction);
-    delayMicroseconds(30);
+    delayMicroseconds(50);
 }
 
 //drive two opposite motors. For optimization usage.

@@ -538,8 +538,8 @@ void genRandomState(std::vector<int> &steps, int stepNum)
         }
         srand(seed);
     }
-
-    stepNum = ((unsigned int)rand()) % 5 + 18;
+    if (stepNum == 0)
+        stepNum = ((unsigned int)rand()) % 5 + 18;
     steps.clear();
 
     int prev = 18, current = 0;

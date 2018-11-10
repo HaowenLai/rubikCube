@@ -1,7 +1,7 @@
 #include <vector>
 #include <iostream>
 #include "RubikCube.h"
-#include "control.h"
+#include "Motor.h"
 
 using namespace std;
 
