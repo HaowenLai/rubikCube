@@ -43,11 +43,17 @@ set(disorganizeSrcList
     src/RubikCube.cpp
     src/Motor.cpp)
 
+set(colorDispSrcList
+    exec/colorDisp.cpp
+    src/colorRecog.cpp)
+
 add_executable(simulate ${simulateSrcList})
-add_executable(solveCubeManually ${solveCubeManuallySrcList})
-add_executable(disorganize ${disorganizeSrcList})
+#add_executable(solveCubeManually ${solveCubeManuallySrcList})
+#add_executable(disorganize ${disorganizeSrcList})
+add_executable(colorDisp ${colorDispSrcList})
 
 
 target_link_libraries(simulate ${OpenCV_LIBS} pthread kociemba)
-target_link_libraries(solveCubeManually ${OpenCV_LIBS} wiringPi kociemba)
-target_link_libraries(disorganize ${OpenCV_LIBS} wiringPi)
+#target_link_libraries(solveCubeManually ${OpenCV_LIBS} wiringPi kociemba)
+#target_link_libraries(disorganize ${OpenCV_LIBS} wiringPi)
+target_link_libraries(colorDisp ${OpenCV_LIBS})
