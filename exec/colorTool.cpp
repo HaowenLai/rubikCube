@@ -47,7 +47,7 @@ int main(int argc, char **argv)
     Mat imgOriginal = imread("../data/up1.jpg");
 
     //perspective transform
-    vector<Point2f> quadPtSrc{Point2f(344, 202), Point2f(530, 262), Point2f(413, 409), Point2f(230, 374)};
+    vector<Point2f> quadPtSrc{Point2f(538, 254), Point2f(351, 196), Point2f(294, 61), Point2f(464, 119)};
     vector<Point2f> quadPtDst{Point2f(0, 0), Point2f(100, 0), Point2f(100, 100), Point2f(0, 100)};
     Mat transmtx = getPerspectiveTransform(quadPtSrc, quadPtDst);
 
@@ -61,8 +61,8 @@ int main(int argc, char **argv)
         split(imgHSV, hsvSplit);
         equalizeHist(hsvSplit[2], hsvSplit[2]);
         merge(hsvSplit, imgHSV);
-        Mat imgThresholded;
 
+        Mat imgThresholded;
         inRange(imgHSV, Scalar(iLowH, iLowS, iLowV), Scalar(iHighH, iHighS, iHighV), imgThresholded); //Threshold the image
 
         //开操作 (去除一些噪点), 闭操作 (连接一些连通域)

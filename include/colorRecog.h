@@ -24,4 +24,10 @@ void getUpDowmImg(cv::VideoCapture &downCam, cv::VideoCapture &upCam,
                   cv::Mat &downImg, cv::Mat &upImg,
                   int skipFrame = 20);
 
+// Read all six faces colors.
+//Input images from up and down cameras, and output the color letter array.
+//The output rank is the same as that defined in class `RubikCube`.
+//e.g. "rgbowyyoow....."
+void read6faceColor(cv::Mat &upImg, cv::Mat &downImg, char colorLetter[]);
+
 #endif
