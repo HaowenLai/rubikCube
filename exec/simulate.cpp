@@ -24,7 +24,7 @@ int main(int argc, char **argv)
     {
         cout << "you must tell me the colors!" << endl;
         cout << "Input should be like this: yyybrgowwb..\n";
-        cout << "The rank of faces are ULFRBD";
+        cout << "The rank of faces are ULFRBD\n";
         return -1;
     }
 

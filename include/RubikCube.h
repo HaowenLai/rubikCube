@@ -147,7 +147,7 @@ class RubikCube
     //transform relative orient to COLOR type.
     //e.g. "ULFRBD" -> "YELLOW BLUE RED GREEN ORANGE WHITW"
     //ONLY used in func `RubikCube::display`
-    void orient2COLOR();
+    // void orient2COLOR();
 
     //  turn the adjacent four faces of the main face(the face you
     //are manipulating). It move index[0,1,2] of f1 to index[3,4,5] of f2,

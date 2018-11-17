@@ -45,6 +45,7 @@ set(disorganizeSrcList
 
 set(colorToolSrcList
     exec/colorTool.cpp
+    src/RubikCube.cpp
     src/colorRecog.cpp)
 
 set(readColorSrcList

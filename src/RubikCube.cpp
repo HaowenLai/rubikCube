@@ -83,6 +83,12 @@ void Face::turn_90()
     data[6] = data[8];
     data[8] = data[2];
     data[2] = temp;
+    //
+    COLOR temp1 = colorData[0];
+    colorData[0] = colorData[6];
+    colorData[6] = colorData[8];
+    colorData[8] = colorData[2];
+    colorData[2] = temp1;
 
     //transform of the edges
     temp = data[1];
@@ -90,6 +96,13 @@ void Face::turn_90()
     data[3] = data[7];
     data[7] = data[5];
     data[5] = temp;
+    //
+    temp1 = colorData[1];
+    colorData[1] = colorData[3];
+    colorData[3] = colorData[7];
+    colorData[7] = colorData[5];
+    colorData[5] = temp1;
+
 }
 
 //turn the face counterclockwise 90 degrees (90 degrees)
@@ -101,6 +114,12 @@ void Face::turn90()
     data[2] = data[8];
     data[8] = data[6];
     data[6] = temp;
+    //
+    COLOR temp1 = colorData[0];
+    colorData[0] = colorData[2];
+    colorData[2] = colorData[8];
+    colorData[8] = colorData[6];
+    colorData[6] = temp1;
 
     //transform of the edges
     temp = data[1];
@@ -108,6 +127,12 @@ void Face::turn90()
     data[5] = data[7];
     data[7] = data[3];
     data[3] = temp;
+    //
+    temp1 = colorData[1];
+    colorData[1] = colorData[5];
+    colorData[5] = colorData[7];
+    colorData[7] = colorData[3];
+    colorData[3] = temp1;
 }
 
 //turn the face 180 degrees
@@ -120,6 +145,13 @@ void Face::turn180()
     temp = data[2];
     data[2] = data[6];
     data[6] = temp;
+    //
+    COLOR temp1 = colorData[0];
+    colorData[0] = colorData[8];
+    colorData[8] = temp1;
+    temp1 = colorData[2];
+    colorData[2] = colorData[6];
+    colorData[6] = temp1;
 
     //transform of the edges
     temp = data[1];
@@ -128,6 +160,13 @@ void Face::turn180()
     temp = data[3];
     data[3] = data[5];
     data[5] = temp;
+    //
+    temp1 = colorData[1];
+    colorData[1] = colorData[7];
+    colorData[7] = temp1;
+    temp1 = colorData[3];
+    colorData[3] = colorData[5];
+    colorData[5] = temp1;
 }
 
 //----------------------------- class `Face` ends --------------------------------
@@ -208,9 +247,6 @@ void RubikCube::display(cv::Mat& img, int x, int y)
 {
     const int faceSz = Face::pieceColorSize * 3 + Face::pieceGapSize * 4;
     const int divideSz = 2;
-
-    //update colorData[] from orientData[]
-    orient2COLOR();
 
     //draw each face
     upFace.display(img, x + faceSz + divideSz, y);
@@ -426,33 +462,33 @@ void RubikCube::COLOR2orient()
 
 //transform relative orient to COLOR type.
 //e.g. "ULFRBD" -> "YELLOW BLUE RED GREEN ORANGE WHITW"
-void RubikCube::orient2COLOR()
-{
-    for (int i = 0; i < 54;i++)
-    {
-        switch(orientData[i])
-        {
-            case 'U':
-                colorData[i] = *(upFace.centerColor);
-                break;
-            case 'L':
-                colorData[i] = *(leftFace.centerColor);
-                break;
-            case 'F':
-                colorData[i] = *(frontFace.centerColor);
-                break;
-            case 'R':
-                colorData[i] = *(rightFace.centerColor);
-                break;
-            case 'B':
-                colorData[i] = *(backFace.centerColor);
-                break;
-            case 'D':
-                colorData[i] = *(downFace.centerColor);
-                break;
-        }
-    }
-}
+// void RubikCube::orient2COLOR()
+// {
+//     for (int i = 0; i < 54;i++)
+//     {
+//         switch(orientData[i])
+//         {
+//             case 'U':
+//                 colorData[i] = *(upFace.centerColor);
+//                 break;
+//             case 'L':
+//                 colorData[i] = *(leftFace.centerColor);
+//                 break;
+//             case 'F':
+//                 colorData[i] = *(frontFace.centerColor);
+//                 break;
+//             case 'R':
+//                 colorData[i] = *(rightFace.centerColor);
+//                 break;
+//             case 'B':
+//                 colorData[i] = *(backFace.centerColor);
+//                 break;
+//             case 'D':
+//                 colorData[i] = *(downFace.centerColor);
+//                 break;
+//         }
+//     }
+// }
 
 
 //  turn the adjacent four faces of the main face(the face you
@@ -463,24 +499,40 @@ void RubikCube::orient2COLOR()
 void RubikCube::turnAdj4faces(Face& f1, Face& f2, Face& f3, Face& f4, const int* index)
 {
     char temp[3];
+    COLOR temp1[3];
     //f4 -> f1
     for (int i = 0; i < 3; i++)
     {
         temp[i] = f1.data[index[i]];
         f1.data[index[i]] = f4.data[index[i + 9]];
+        //
+        temp1[i] = f1.colorData[index[i]];
+        f1.colorData[index[i]] = f4.colorData[index[i + 9]];
     }
 
     //f3 -> f4
     for (int i = 9; i < 12; i++)
+    {
         f4.data[index[i]] = f3.data[index[i - 3]];
-    
+        //
+        f4.colorData[index[i]] = f3.colorData[index[i - 3]];
+    }
+
     //f2 -> f3
     for (int i = 6; i < 9; i++)
+    {
         f3.data[index[i]] = f2.data[index[i - 3]];
+        //
+        f3.colorData[index[i]] = f2.colorData[index[i - 3]];
+    }
 
     //f1 -> f2
     for (int i = 3; i < 6; i++)
+    {
         f2.data[index[i]] = temp[i - 3];
+        //
+        f2.colorData[index[i]] = temp1[i - 3];
+    }
 }
 
 
@@ -492,12 +544,18 @@ void RubikCube::turnAdj4faces(Face& f1, Face& f2, Face& f3, Face& f4, const int*
 void RubikCube::turnOpp4faces(Face &fa1, Face &fa2, Face &fb1, Face &fb2, const int *index)
 {
     char temp;
+    COLOR temp1;
+    
     //fa1 <-> fa2
     for (int i = 0; i < 3; i++)
     {
         temp = fa1.data[index[i]];
         fa1.data[index[i]] = fa2.data[index[i + 3]];
         fa2.data[index[i + 3]] = temp;
+        //
+        temp1 = fa1.colorData[index[i]];
+        fa1.colorData[index[i]] = fa2.colorData[index[i + 3]];
+        fa2.colorData[index[i + 3]] = temp1;
     }
 
     //fb1 <-> fb2
@@ -506,6 +564,10 @@ void RubikCube::turnOpp4faces(Face &fa1, Face &fa2, Face &fb1, Face &fb2, const 
         temp = fb1.data[index[i]];
         fb1.data[index[i]] = fb2.data[index[i + 3]];
         fb2.data[index[i + 3]] = temp;
+        //
+        temp1 = fb1.colorData[index[i]];
+        fb1.colorData[index[i]] = fb2.colorData[index[i + 3]];
+        fb2.colorData[index[i + 3]] = temp1;
     }
 }
 
