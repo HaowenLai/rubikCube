@@ -1,9 +1,9 @@
 # rubikCube
-## description
+## Description
 &ensp;&ensp; This project uses kociemba algorithm to solve Rubik's cube.  
 &ensp;&ensp; It is used to automatically solve Rubik's cube by a device that is DIYed by my team, so it contain both software for upper monitor and lower driver(Raspberry wiringPi lib).
 
-## dependency & modules
+## Dependency & Modules
 This project depends on the following libs:
 - OpenCV (>= 3.3.0)
 - WiringPi
@@ -11,11 +11,11 @@ This project depends on the following libs:
 
 This project contains the following modules:
 - Simulation
-- Random state generation
-- 3D turning effect
-- Raspberry driver
+- Core solution algorithm
+- Turning method(motor control)
+- Color recognition
 
-## usage
+## Usage
 **Before you can run this project, compile it first:**  
 &ensp;&ensp; `~/rubikCube$ mkdir build && cd build`  
 &ensp;&ensp; `~/rubikCube/build$ cmake ..`  
@@ -33,10 +33,26 @@ This project contains the following modules:
   
 - solveCubeManually:  
   Manually input the colors of each face. The order of colors is the same as that of `simulation`.  
-  e.g. `~/rubikCube/build$ ./solveCubeManually wgbrwywwrgygwrbogwrggobwboryoyroybywoooggboryrwyrybgbb` 
+  e.g. `~/rubikCube/build$ ./solveCubeManually wgbrwywwrgygwrbogwrggobwboryoyroybywoooggboryrwyrybgbb`  
 
-## author
+- colorTool:  
+  Several tools about color recognition.  
+  You can choose one of the tools by entering the corresponding number when the program is run.  
+  
+- ReadColor:  
+  The program concerning color recognition.  
+  You can choose whether to train a new color model or use the existing model to recognize colors.  
+  By default, the model files should be in the folder the same as the path of program.  
+
+## About color recognition
+The color distribution is shown as pic.1  
+![pic2](https://github.com/HaowenLai/rubikCube/releases/download/v2.0/color_distribution.png)  
+The recognition result is shown as pic.2  
+![pic2](https://github.com/HaowenLai/rubikCube/releases/download/v2.0/color_recognition.png)  
+
+## Author
 > Derek Lai (HaowenLai)
 ****
 The whole device (including hardware structure and software) is really remarkable!  
+We are going to add a 3D simulation & display module very soon.  
 Have fun and enjoy it ~~
