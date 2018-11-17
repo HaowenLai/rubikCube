@@ -6,31 +6,24 @@ using namespace cv;
 
 int main(int argc, char **argv)
 {
+    int choice = 1;
+    cout << "enter one of the following numbers:\n"
+            "1. record color samples and train models\n"
+            "2. recognize colors of six faces and display them\n"
+            "Please enter your choice: ";
+    cin >> choice;
+
     int camIdx[2];
     getOrderCamera(camIdx);
-
+    //
     VideoCapture downCam(camIdx[0]);
     VideoCapture upCam(camIdx[1]);
-    // Mat upImage = imread("../data/up2.jpg");
-    // Mat downImage = imread("../data/down2.jpg");
 
-    Mat upImage, downImage;
-    RubikCube cube;
-    namedWindow("show", WINDOW_AUTOSIZE);
-    
-    while (waitKey(30) != 'q')
+    if(choice==1)
+        trainColorModel(downCam, upCam);
+    else
     {
-        upCam >> upImage;
-        downCam >> downImage;
-
-        char colorLetter[54];
-        read6faceColor(upImage, downImage, colorLetter);
-
-        cube.initCubeState(colorLetter);
-        Mat dspImg(240, 320, CV_8UC3, Scalar(255, 255, 255));
-        cube.display(dspImg, 10, 10);
-        imshow("show", dspImg);
+        char colorLetters[54];
+        read6faceColor(downCam, upCam, colorLetters);
     }
-
-    return 0;
 }

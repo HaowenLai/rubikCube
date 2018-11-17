@@ -24,6 +24,24 @@ void getUpDowmImg(cv::VideoCapture &downCam, cv::VideoCapture &upCam,
                   cv::Mat &downImg, cv::Mat &upImg,
                   int skipFrame = 20);
 
+// Infer the unknown color of an angle-block.
+//For every angle-block, the color unknown can be infered if the rest two colors are clear.
+//Colors are represented by letters 'wrbogy', and the unknow is represented by 'x'.
+//NOTE: up-w, left-r, front-b
+void inferUnknownClr(char colorLetters[]);
+
+// train svm models for up and down cameras respectively to recognize colors.
+void trainColorModel(cv::VideoCapture &downCam, cv::VideoCapture &upCam,
+                     std::string modelPath = std::string("./"));
+
+// Read all six faces colors.
+//This is an overload function using SVM to read colors
+//The output rank is the same as that defined in class `RubikCube`.
+//e.g. "rgbowyyoow....."
+void read6faceColor(cv::VideoCapture &downCam, cv::VideoCapture &upCam,
+                    char colorLetter[],
+                    std::string modelPath = std::string("./"));
+
 // Read all six faces colors.
 //Input images from up and down cameras, and output the color letter array.
 //The output rank is the same as that defined in class `RubikCube`.

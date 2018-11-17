@@ -15,6 +15,7 @@ static void perspective();          //tool 3
 static void pers_kmeans();          //tool 4
 static void svm_train_test();       //tool 5
 static void svm_predict_test();     //tool 6
+static void unknown_color_test();   //tool 7
 
 //-------------------------------------------------------------
 int main(int argc, char **argv)
@@ -25,7 +26,8 @@ int main(int argc, char **argv)
             "3. perspective test\n"
             "4. perspective and kmeans together\n"
             "5. svm color train test\n"
-            "6. svm color predict test\n";
+            "6. svm color predict test\n"
+            "7. unknown color test\n";
 
     int choice = 1;
     cin >> choice;
@@ -48,6 +50,9 @@ int main(int argc, char **argv)
         break;
     case 6:
         svm_predict_test();
+        break;
+    case 7:
+        unknown_color_test();
         break;
     }
 
@@ -693,4 +698,20 @@ static void svm_predict_test()
         imshow("trans", background);
         imshow("display", dspImg);
     }
+}
+
+static void unknown_color_test()
+{
+    char colorLt[54];
+    cout << "enter the colors:\n";
+    cin >> colorLt;
+
+    inferUnknownClr(colorLt);
+    RubikCube cube;
+    cube.initCubeState(colorLt);
+
+    Mat dspImg(240, 320, CV_8UC3, Scalar(255, 255, 255));
+    cube.display(dspImg, 10, 10);
+    imshow("haha", dspImg);
+    waitKey(0);
 }
