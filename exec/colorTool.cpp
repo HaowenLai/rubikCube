@@ -16,6 +16,7 @@ static void pers_kmeans();          //tool 4
 static void svm_train_test();       //tool 5
 static void svm_predict_test();     //tool 6
 static void unknown_color_test();   //tool 7
+static void acquire_bus_info();     //tool 8
 
 //-------------------------------------------------------------
 int main(int argc, char **argv)
@@ -27,7 +28,8 @@ int main(int argc, char **argv)
             "4. perspective and kmeans together\n"
             "5. svm color train test\n"
             "6. svm color predict test\n"
-            "7. unknown color test\n";
+            "7. unknown color test\n"
+            "8. get camera bus info\n";
 
     int choice = 1;
     cin >> choice;
@@ -53,6 +55,9 @@ int main(int argc, char **argv)
         break;
     case 7:
         unknown_color_test();
+        break;
+    case 8:
+        acquire_bus_info();
         break;
     }
 
@@ -117,14 +122,14 @@ static void adjHsvValue()
     int iHighV = 255;
 
     //Create trackbars in "Control" window
-    cvCreateTrackbar("LowH", "Control", &iLowH, 179); //Hue (0 - 179)
-    cvCreateTrackbar("HighH", "Control", &iHighH, 179);
+    createTrackbar("LowH", "Control", &iLowH, 179); //Hue (0 - 179)
+    createTrackbar("HighH", "Control", &iHighH, 179);
     //
-    cvCreateTrackbar("LowS", "Control", &iLowS, 255); //Saturation (0 - 255)
-    cvCreateTrackbar("HighS", "Control", &iHighS, 255);
+    createTrackbar("LowS", "Control", &iLowS, 255); //Saturation (0 - 255)
+    createTrackbar("HighS", "Control", &iHighS, 255);
     //
-    cvCreateTrackbar("LowV", "Control", &iLowV, 255); //Value (0 - 255)
-    cvCreateTrackbar("HighV", "Control", &iHighV, 255);
+    createTrackbar("LowV", "Control", &iLowV, 255); //Value (0 - 255)
+    createTrackbar("HighV", "Control", &iHighV, 255);
     //set mouse callback
     setMouseCallback("Original 1", onMouseHandle, nullptr);
     setMouseCallback("Original 2", onMouseHandle, nullptr);
@@ -252,10 +257,10 @@ static void perspective()
     namedWindow("trans", WINDOW_AUTOSIZE);
     namedWindow("Control", WINDOW_AUTOSIZE);
     //
-    cvCreateTrackbar("initBlkGapX", "Control", &initBlkGapX, 10);
-    cvCreateTrackbar("initBlkGapY", "Control", &initBlkGapY, 10);
-    cvCreateTrackbar("blkGap", "Control", &blkGap, 35);
-    cvCreateTrackbar("blkSize", "Control", &blkSize, 25);
+    createTrackbar("initBlkGapX", "Control", &initBlkGapX, 10);
+    createTrackbar("initBlkGapY", "Control", &initBlkGapY, 10);
+    createTrackbar("blkGap", "Control", &blkGap, 35);
+    createTrackbar("blkSize", "Control", &blkSize, 25);
     //
     setMouseCallback("ori", onMouseHandle, nullptr);
     setMouseCallback("trans", onMouseHandle, nullptr);
@@ -320,10 +325,10 @@ static void pers_kmeans()
     namedWindow("trans", WINDOW_AUTOSIZE);
     namedWindow("Control", WINDOW_AUTOSIZE);
     //
-    cvCreateTrackbar("initBlkGapX", "Control", &initBlkGapX, 15);
-    cvCreateTrackbar("initBlkGapY", "Control", &initBlkGapY, 15);
-    cvCreateTrackbar("blkGap", "Control", &blkGap, 35);
-    cvCreateTrackbar("blkSize", "Control", &blkSize, 30);
+    createTrackbar("initBlkGapX", "Control", &initBlkGapX, 15);
+    createTrackbar("initBlkGapY", "Control", &initBlkGapY, 15);
+    createTrackbar("blkGap", "Control", &blkGap, 35);
+    createTrackbar("blkSize", "Control", &blkSize, 30);
     //
     setMouseCallback("ori", onMouseHandle, nullptr);
     setMouseCallback("trans", onMouseHandle, nullptr);
@@ -469,10 +474,10 @@ static void svm_train_test()
     namedWindow("trans", WINDOW_AUTOSIZE);
     namedWindow("Control", WINDOW_AUTOSIZE);
     //
-    cvCreateTrackbar("initBlkGapX", "Control", &initBlkGapX, 15);
-    cvCreateTrackbar("initBlkGapY", "Control", &initBlkGapY, 15);
-    cvCreateTrackbar("blkGap", "Control", &blkGap, 35);
-    cvCreateTrackbar("blkSize", "Control", &blkSize, 30);
+    createTrackbar("initBlkGapX", "Control", &initBlkGapX, 15);
+    createTrackbar("initBlkGapY", "Control", &initBlkGapY, 15);
+    createTrackbar("blkGap", "Control", &blkGap, 35);
+    createTrackbar("blkSize", "Control", &blkSize, 30);
     //
     setMouseCallback("ori", onMouseHandle, nullptr);
     setMouseCallback("trans", onMouseHandle, nullptr);
@@ -617,10 +622,10 @@ static void svm_predict_test()
     namedWindow("trans", WINDOW_AUTOSIZE);
     namedWindow("Control", WINDOW_AUTOSIZE);
     //
-    cvCreateTrackbar("initBlkGapX", "Control", &initBlkGapX, 15);
-    cvCreateTrackbar("initBlkGapY", "Control", &initBlkGapY, 15);
-    cvCreateTrackbar("blkGap", "Control", &blkGap, 35);
-    cvCreateTrackbar("blkSize", "Control", &blkSize, 30);
+    createTrackbar("initBlkGapX", "Control", &initBlkGapX, 15);
+    createTrackbar("initBlkGapY", "Control", &initBlkGapY, 15);
+    createTrackbar("blkGap", "Control", &blkGap, 35);
+    createTrackbar("blkSize", "Control", &blkSize, 30);
     //
     setMouseCallback("ori", onMouseHandle, nullptr);
     setMouseCallback("trans", onMouseHandle, nullptr);
@@ -714,4 +719,9 @@ static void unknown_color_test()
     cube.display(dspImg, 10, 10);
     imshow("haha", dspImg);
     waitKey(0);
+}
+
+static void acquire_bus_info()
+{
+    getCamBusInfo();
 }

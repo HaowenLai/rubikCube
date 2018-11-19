@@ -13,6 +13,9 @@
 
 #include <opencv2/opencv.hpp>
 
+// get cameras bus info. Shown in the console.
+void getCamBusInfo(void);
+
 //  this functoin get ordered camera and put their index into `rtCamIndex[]`
 //rtCamIndex[0] is the index of down camera, rtCamIndex[1] is the index of 
 //up camera.
@@ -43,9 +46,15 @@ void read6faceColor(cv::VideoCapture &downCam, cv::VideoCapture &upCam,
                     std::string modelPath = std::string("./"));
 
 // Read all six faces colors.
+//This is an overload function. Only read colors for one frame.
+void read6faceColor(cv::Mat downImg, cv::Mat upImg, cv::Mat &background,
+                    char colorLetter[],
+                    std::string modelPath = std::string("./"));
+
+// Read all six faces colors.
 //Input images from up and down cameras, and output the color letter array.
 //The output rank is the same as that defined in class `RubikCube`.
 //e.g. "rgbowyyoow....."
-void read6faceColor(cv::Mat &upImg, cv::Mat &downImg, char colorLetter[]);
+// void read6faceColor(cv::Mat &upImg, cv::Mat &downImg, char colorLetter[]);
 
 #endif
