@@ -177,6 +177,13 @@ void inferUnknownClr(char colorLetters[])
 
             if (breakFlag)
                 break;
+            else if(j==5)   //already known colors are wrong
+            {
+                colorLetters[unknownClrIdx[i]] = 'w';   //assign white to wrong place
+                printf("color ERROR! Cannot infer the color of face %d, block %d\n",
+                       unknownClrIdx[i] / 9, unknownClrIdx[i] % 9);
+            }
+            
         } //end line of lookupTb
     }     //end i
 }

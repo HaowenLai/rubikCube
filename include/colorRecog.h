@@ -35,7 +35,7 @@ void inferUnknownClr(char colorLetters[]);
 
 // train svm models for up and down cameras respectively to recognize colors.
 void trainColorModel(cv::VideoCapture &downCam, cv::VideoCapture &upCam,
-                     std::string modelPath = std::string("./"));
+                     std::string modelPath = std::string("../data/"));
 
 // Read all six faces colors.
 //This is an overload function using SVM to read colors
@@ -43,13 +43,13 @@ void trainColorModel(cv::VideoCapture &downCam, cv::VideoCapture &upCam,
 //e.g. "rgbowyyoow....."
 void read6faceColor(cv::VideoCapture &downCam, cv::VideoCapture &upCam,
                     char colorLetter[],
-                    std::string modelPath = std::string("./"));
+                    std::string modelPath = std::string("../data/"));
 
 // Read all six faces colors.
 //This is an overload function. Only read colors for one frame.
 void read6faceColor(cv::Mat downImg, cv::Mat upImg, cv::Mat &background,
                     char colorLetter[],
-                    std::string modelPath = std::string("./"));
+                    std::string modelPath = std::string("../data/"));
 
 // Read all six faces colors.
 //Input images from up and down cameras, and output the color letter array.

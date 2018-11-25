@@ -14,6 +14,7 @@ This project contains the following modules:
 - Core solution algorithm
 - Turning method(motor control)
 - Color recognition
+- 3D control and display
 
 ## Usage
 **Before you can run this project, compile it first:**  
@@ -44,15 +45,18 @@ This project contains the following modules:
   You can choose whether to train a new color model or use the existing model to recognize colors.  
   By default, the model files should be in the folder the same as the path of program.  
 
+- 3D control and display:  
+  In the branch `3d_module`. This module is made in Unity3d and it is not finished yet.
+
 ## About color recognition
 The color distribution is shown as pic.1  
-![pic2](https://github.com/HaowenLai/rubikCube/releases/download/v2.0/color_distribution.png)  
+![pic1](https://github.com/HaowenLai/rubikCube/blob/master/data/color_distribution.png)  
 The recognition result is shown as pic.2  
-![pic2](https://github.com/HaowenLai/rubikCube/releases/download/v2.0/color_recognition.png)  
+![pic2](https://github.com/HaowenLai/rubikCube/blob/master/data/color_recognition.png)  
 
 ## Author
 > Derek Lai (HaowenLai)
 ****
 The whole device (including hardware structure and software) is really remarkable!  
-We are going to add a 3D simulation & display module very soon.  
+The 3D control and display module can be found in branch `3d_module`. It is not finished yet.  
 Have fun and enjoy it ~~
